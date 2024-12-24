@@ -2,15 +2,20 @@
 
 <?= $this->section('content') ?>
 <div class="container-fluid">
-    <div class="card">
-        <div class="card-header">
-            <h5 class="m-0">Featured</h5>
-        </div>
-        <div class="card-body">
-            <h6 class="card-title">Special title treatment</h6>
+    <div class="row">
+        <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-info">
+                <div class="inner">
+                    <h3>150</h3>
 
-            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
+                    <p>New Orders</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-bag"></i>
+                </div>
+                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
         </div>
     </div>
 </div>
