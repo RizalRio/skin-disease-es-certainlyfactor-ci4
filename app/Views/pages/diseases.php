@@ -64,6 +64,29 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="deleteDiseases" tabindex="-1" role="dialog" aria-labelledby="deleteDiseasesId" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Hapus Penyakit</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="<?= current_url() ?>/delete" method="post">
+                <div class="modal-body">
+                    <input type="text" name="idDelete" id="idDelete" value="" hidden>
+                    <p>Apakah anda ingin menghapus data ini ?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 <?= $this->endSection() ?>
 
 <?= $this->section('script') ?>
@@ -108,6 +131,16 @@
                 console.log('Configuration applied: ', settings);
             }
         });
+    });
+
+    $(document).on('click', '.btn-delete', function(e) {
+        e.preventDefault();
+
+        let dataId = $(this).data('id');
+
+        console.log('Tombol Edit diklik! ID:', dataId);
+
+        $('#idDelete').val(dataId);
     });
 </script>
 <?= $this->endSection() ?>

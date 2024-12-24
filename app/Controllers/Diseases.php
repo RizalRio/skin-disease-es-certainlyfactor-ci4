@@ -39,7 +39,7 @@ class Diseases extends BaseController
 
         // Add action buttons
         foreach ($data as &$row) {
-            $row['actions'] = '<a href="' . base_url('user/edit/' . $row['id']) . '" class="btn btn-sm btn-primary mr-3">Edit</a><a href="' . base_url('user/edit/' . $row['id']) . '" class="btn btn-sm btn-primary">Edit</a>';
+            $row['actions'] = '<button type="button" class="btn btn-info btn-sm btn-edit mr-2" data-id="' . $row['id'] . '" data-toggle="modal" data-target="#editDiseases"><i class="fas fa-edit"></i></button><button type="button" class="btn btn-danger btn-sm btn-delete" data-id="' . $row['id'] . '" data-toggle="modal" data-target="#deleteDiseases"><i class="fas fa-trash"></i></button>';
         }
 
         $result = [
@@ -90,6 +90,29 @@ class Diseases extends BaseController
 
         if ($this->request->getMethod() == 'post') {
         } else {
+        }
+    }
+
+    public function delete()
+    {
+        $diseasesModel = new ModelsDiseases();
+        $idPost = $this->request->getVar('idDelete');
+
+        if ($this->request->getMethod() == 'post' && !empty($idPost)) {
+            if ($diseasesModel->delete($idPost)) {
+                session()->setFlashData('success', 'Data berhasil dihapus.');
+                return redirect()->to($_SERVER['HTTP_REFERER']);
+            } else {
+                session()->setFlashData('danger', 'Data gagal dihapus!');
+
+                $errors = $diseasesModel->errors();
+                if ($errors) {
+                    foreach ($errors as $error) {
+                        log_message('error', $error);
+                    }
+                }
+                return redirect()->to($_SERVER['HTTP_REFERER']);
+            }
         }
     }
 }
