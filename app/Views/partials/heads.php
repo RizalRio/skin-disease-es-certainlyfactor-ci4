@@ -20,3 +20,15 @@
  <link rel="stylesheet" href="<?= base_url('plugins/adminlte') ?>/plugins/daterangepicker/daterangepicker.css">
  <!-- summernote -->
  <link rel="stylesheet" href="<?= base_url('plugins/adminlte') ?>/plugins/summernote/summernote-bs4.min.css">
+
+ <style>
+     .custom-alert {
+         position: fixed;
+         top: 10px;
+         right: 10px;
+         width: 300px;
+         z-index: 1050;
+         /* Pastikan alert berada di atas elemen lain */
+         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+     }
+ </style>

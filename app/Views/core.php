@@ -11,6 +11,40 @@
 
 <body class="hold-transition sidebar-mini">
     <div class="wrapper">
+        <?php
+        $alertTypes = [
+            'success' => 'alert-success',
+            'danger'  => 'alert-danger',
+            'info'    => 'alert-info',
+        ];
+
+        foreach ($alertTypes as $key => $class) {
+            if ($message = session()->getFlashData($key)) {
+        ?>
+                <div class="alert <?= $class ?> alert-dismissible fade show custom-alert" role="alert">
+                    <?= $message ?>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+        <?php
+            }
+        }
+        ?>
+
+        <?php
+        if (session()->getFlashData('info')) {
+        ?>
+            <div class="alert alert-info alert-dismissible fade show" role="alert">
+                <?= session()->getFlashData('info') ?>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        <?php
+        }
+        ?>
+
         <?= view('partials/navbar') ?>
 
         <?= view('partials/sidebar') ?>
@@ -50,6 +84,7 @@
 
     <!-- REQUIRED SCRIPTS -->
     <?= view('partials/scripts') ?>
+    <?= $this->renderSection('script') ?>
 </body>
 
 </html>

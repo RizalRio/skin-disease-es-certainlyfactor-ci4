@@ -12,7 +12,18 @@
             </div>
         </div>
         <div class="card-body">
-
+            <table id="diseasesTable" class="display">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Code</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Suggestion</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+            </table>
         </div>
     </div>
 </div>
@@ -26,7 +37,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="" method="post">
+            <form action="<?= current_url() ?>/create" method="post">
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="code">Kode</label>
@@ -47,10 +58,56 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
+<?= $this->endSection() ?>
+
+<?= $this->section('script') ?>
+<script>
+    $(document).ready(function() {
+        $('#diseasesTable').DataTable({
+            serverSide: true,
+            processing: true,
+            ajax: '<?= base_url('diseases/getData') ?>',
+            columns: [{
+                    data: 'id',
+                    orderable: true,
+                    searchable: true
+                },
+                {
+                    data: 'code',
+                    orderable: true,
+                    searchable: true
+                },
+                {
+                    data: 'name',
+                    orderable: true,
+                    searchable: true
+                },
+                {
+                    data: 'description',
+                    orderable: true,
+                    searchable: true
+                },
+                {
+                    data: 'suggestion',
+                    orderable: true,
+                    searchable: false
+                },
+                {
+                    data: 'actions',
+                    orderable: false,
+                    searchable: false
+                }
+            ],
+            initComplete: function(settings, json) {
+                console.log('Configuration applied: ', settings);
+            }
+        });
+    });
+</script>
 <?= $this->endSection() ?>

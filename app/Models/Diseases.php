@@ -12,7 +12,7 @@ class Diseases extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = ['code', 'name', 'description', 'suggestion'];
 
     protected bool $allowEmptyInserts = false;
 
