@@ -65,6 +65,44 @@
     </div>
 </div>
 
+<div class="modal fade" id="editDiseases" tabindex="-1" role="dialog" aria-labelledby="editDiseasesId" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Penyakit</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="<?= current_url() ?>/edit" method="post">
+                <input type="text" name="id" id="editId" value="" hidden>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="code">Kode</label>
+                        <input type="text" name="code" id="editCode" class="form-control" placeholder="Ex. GE1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="name">Nama</label>
+                        <input type="text" name="name" id="editName" class="form-control" placeholder="Ex. Eksim" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Deskripsi</label>
+                        <textarea class="summernote" name="description" id="editDescription"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="suggestion">Saran Penanganan</label>
+                        <textarea class="summernote" name="suggestion" id="editSuggestion"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="deleteDiseases" tabindex="-1" role="dialog" aria-labelledby="deleteDiseasesId" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -138,9 +176,33 @@
 
         let dataId = $(this).data('id');
 
-        console.log('Tombol Edit diklik! ID:', dataId);
+        console.log('Tombol hapus diklik! ID:', dataId);
 
         $('#idDelete').val(dataId);
+    });
+
+    $(document).on('click', '.btn-edit', function(e) {
+        e.preventDefault();
+
+        let dataId = $(this).data('id');
+
+        $.ajax({
+            url: '<?= base_url('diseases/edit') ?>',
+            type: 'GET',
+            data: {
+                id: dataId
+            },
+            success: function(response) {
+                $('#editId').val(dataId);
+                $('#editCode').val(response.receivedData.code);
+                $('#editName').val(response.receivedData.name);
+                $('#editDescription').summernote("code", response.receivedData.description);
+                $('#editSuggestion').summernote("code", response.receivedData.suggestion);
+            },
+            error: function(xhr) {
+                console.log(xhr.responseText);
+            }
+        });
     });
 </script>
 <?= $this->endSection() ?>

@@ -87,9 +87,49 @@ class Diseases extends BaseController
     public function edit()
     {
         $diseasesModel = new ModelsDiseases();
+        $data = $this->request->getVar();
 
         if ($this->request->getMethod() == 'post') {
-        } else {
+            $dataPost = $this->request->getVar();
+
+            $dataEdit = [
+                'code'          => $dataPost['code'],
+                'name'          => $dataPost['name'],
+                'description'   => $dataPost['description'],
+                'suggestion'    => $dataPost['suggestion']
+            ];
+
+            if ($diseasesModel->update($dataPost['id'], $dataEdit)) {
+                session()->setFlashData('success', 'Data berhasil diupdate.');
+                return redirect()->to($_SERVER['HTTP_REFERER']);
+            } else {
+                session()->setFlashData('danger', 'Data gagal diupdate!');
+
+                $errors = $diseasesModel->errors();
+                if ($errors) {
+                    foreach ($errors as $error) {
+                        log_message('error', $error);
+                    }
+                }
+                return redirect()->to($_SERVER['HTTP_REFERER']);
+            }
+        } elseif ($this->request->isAJAX()) {
+            $dataGet = $diseasesModel->find($data['id']);
+
+            if (!empty($dataGet)) {
+                $response = [
+                    'status'        => 'success',
+                    'message'       => 'Data berhasil didapatkan.',
+                    'receivedData'  => $dataGet
+                ];
+            } else {
+                $response = [
+                    'status'        => 'error',
+                    'message'       => 'Data gagal didapatkan.'
+                ];
+            }
+
+            return $this->response->setJSON($response);
         }
     }
 
