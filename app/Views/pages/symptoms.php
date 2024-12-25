@@ -126,21 +126,11 @@
                     orderable: true,
                     searchable: true
                 },
-                // {
-                //     data: 'name',
-                //     orderable: true,
-                //     searchable: true
-                // },
                 {
                     data: 'description',
                     orderable: true,
                     searchable: true
                 },
-                // {
-                //     data: 'suggestion',
-                //     orderable: true,
-                //     searchable: false
-                // },
                 {
                     data: 'actions',
                     orderable: false,
@@ -177,9 +167,7 @@
             success: function(response) {
                 $('#editId').val(dataId);
                 $('#editCode').val(response.receivedData.code);
-                // $('#editName').val(response.receivedData.name);
                 $('#editDescription').summernote("code", response.receivedData.description);
-                // $('#editSuggestion').summernote("code", response.receivedData.suggestion);
             },
             error: function(xhr) {
                 console.log(xhr.responseText);

@@ -24,10 +24,6 @@ class Symptoms extends BaseController
         $query = $symptomsModel;
 
         if (!empty($searchValue)) {
-            // $query = $query->like('name', $searchValue)
-            //     ->orLike('code', $searchValue)
-            //     ->orLike('description', $searchValue)
-            //     ->orLike('suggestion', $searchValue);
             $query = $query->like('description', $searchValue)
                 ->orLike('code', $searchValue);
         }
@@ -63,9 +59,7 @@ class Symptoms extends BaseController
 
             $dataInsert = [
                 'code'          => $dataPost['code'],
-                // 'name'          => $dataPost['name'],
-                'description'   => strip_tags($dataPost['description']),
-                // 'suggestion'    => $dataPost['suggestion'],
+                'description'   => strip_tags($dataPost['description'])
             ];
 
 
@@ -96,9 +90,7 @@ class Symptoms extends BaseController
 
             $dataEdit = [
                 'code'          => $dataPost['code'],
-                // 'name'          => $dataPost['name'],
-                'description'   => strip_tags($dataPost['description']),
-                // 'suggestion'    => $dataPost['suggestion']
+                'description'   => strip_tags($dataPost['description'])
             ];
 
             if ($symptomsModel->update($dataPost['id'], $dataEdit)) {
