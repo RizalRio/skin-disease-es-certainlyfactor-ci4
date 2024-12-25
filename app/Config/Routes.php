@@ -14,3 +14,10 @@ $routes->group('diseases', static function ($routes) {
     $routes->match(['GET', 'POST'], 'edit', 'Diseases::edit');
     $routes->match(['GET', 'POST'], 'delete', 'Diseases::delete');
 });
+$routes->group('symptoms', static function ($routes) {
+    $routes->get('', 'Symptoms::index');
+    $routes->get('getData', 'Symptoms::getData');
+    $routes->post('create', 'Symptoms::create');
+    $routes->match(['GET', 'POST'], 'edit', 'Symptoms::edit');
+    $routes->match(['GET', 'POST'], 'delete', 'Symptoms::delete');
+});
