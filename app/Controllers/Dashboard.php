@@ -11,4 +11,9 @@ class Dashboard extends BaseController
     {
         return view('pages/dashboard');
     }
+
+    public function user()
+    {
+        return view('pages/dashboard_user');
+    }
 }
