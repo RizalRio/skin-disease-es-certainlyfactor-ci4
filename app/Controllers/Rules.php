@@ -35,8 +35,8 @@ class Rules extends BaseController
         $totalFiltered = $query->countAllResults(false);
 
         $query = $query->select('rules.id, rules.disease_id, rules.symptom_id, rules.cf_value, diseases.name as disease, symptoms.description as symptom')
-            ->join('diseases', 'diseases.id = rules.disease_id', 'right')
-            ->join('symptoms', 'symptoms.id = rules.symptom_id', 'right');
+            ->join('diseases', 'diseases.id = rules.disease_id')
+            ->join('symptoms', 'symptoms.id = rules.symptom_id');
 
         $data = $query->orderBy('rules.id', 'ASC')
             ->findAll($length, $start);
@@ -97,7 +97,7 @@ class Rules extends BaseController
 
             $dataEdit = [
                 'disease_id'    => $dataPost['selectEditDisease'],
-                'symptom_id'    => $dataPost['selectEditSymptoms'],
+                'symptom_id'    => $dataPost['selectEditSymptom'],
                 'cf_value'      => $dataPost['inputEditCF'],
             ];
 
@@ -116,7 +116,10 @@ class Rules extends BaseController
                 return redirect()->to($_SERVER['HTTP_REFERER']);
             }
         } elseif ($this->request->isAJAX()) {
-            $dataGet = $rulesModel->find($data['id']);
+            $dataGet = $rulesModel->select('rules.id, rules.disease_id, rules.symptom_id, rules.cf_value, diseases.name as disease, symptoms.description as symptom')
+                ->join('diseases', 'diseases.id = rules.disease_id')
+                ->join('symptoms', 'symptoms.id = rules.symptom_id')
+                ->find($data['id']);
 
             if (!empty($dataGet)) {
                 $response = [

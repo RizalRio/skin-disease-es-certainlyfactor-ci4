@@ -78,7 +78,7 @@
                     </div>
                     <div class="form-group">
                         <label for="selectSymptoms">Pilih Gejala:</label>
-                        <select name="selectEditSymptoms" id="selectEditSymptoms" class="form-select2 selectSymptoms" style="width: 100%;"></select>
+                        <select name="selectEditSymptom" id="selectEditSymptoms" class="form-select2 selectSymptoms" style="width: 100%;"></select>
                     </div>
                     <div class="form-group">
                         <label for="inputCF">CF Value</label>
@@ -206,8 +206,13 @@
             },
             success: function(response) {
                 $('#editId').val(dataId);
-                $('#selectEditDiseases').val(response.receivedData.disease_id).trigger('change');
-                $('#selectEditSymptoms').val(response.receivedData.symptom_id).trigger('change');
+
+                var newOptionDisease = new Option(response.receivedData.disease, response.receivedData.disease_id, true, true);
+                $('#selectEditDiseases').append(newOptionDisease).trigger('change');
+
+                var newOptionSymptom = new Option(response.receivedData.symptom, response.receivedData.symptom_id, true, true);
+                $('#selectEditSymptoms').append(newOptionSymptom).trigger('change');
+
                 $('#inputEditCF').val(response.receivedData.cf_value);
             },
             error: function(xhr) {
