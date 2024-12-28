@@ -7,15 +7,14 @@ use CodeIgniter\Router\RouteCollection;
  */
 // $routes->get('/', 'Dashboard::index');
 $routes->get('/', 'User::index');
-$routes->get('/user', 'User::index');
+$routes->get('/login', 'User::index');
 $routes->post('/register', 'User::register');
 $routes->post('/login', 'User::login');
 
-$routes->get('/user/logout', 'User::logout');
-$routes->get('/pages/dashboard', 'Dashboard::index', ['filter' => 'adminfilter']);
-$routes->get('/pages/dashboard_user', 'Dashboard::user', ['filter' => 'userfilter']);
+$routes->get('/logout', 'User::logout');
+$routes->get('/dashboard', 'Dashboard::index', ['filter' => 'loginfilter']);
 
-$routes->group('diseases', static function ($routes) {
+$routes->group('diseases', ['filter' => 'rolefilter:admin'], static function ($routes) {
     $routes->get('', 'Diseases::index');
     $routes->get('getDiseases', 'Diseases::getDiseases');
     $routes->get('getData', 'Diseases::getData');
@@ -23,7 +22,7 @@ $routes->group('diseases', static function ($routes) {
     $routes->match(['GET', 'POST'], 'edit', 'Diseases::edit');
     $routes->match(['GET', 'POST'], 'delete', 'Diseases::delete');
 });
-$routes->group('symptoms', static function ($routes) {
+$routes->group('symptoms', ['filter' => 'rolefilter:admin'], static function ($routes) {
     $routes->get('', 'Symptoms::index');
     $routes->get('getSymptoms', 'Symptoms::getSymptoms');
     $routes->get('getData', 'Symptoms::getData');
@@ -31,7 +30,7 @@ $routes->group('symptoms', static function ($routes) {
     $routes->match(['GET', 'POST'], 'edit', 'Symptoms::edit');
     $routes->match(['GET', 'POST'], 'delete', 'Symptoms::delete');
 });
-$routes->group('rules', static function ($routes) {
+$routes->group('rules', ['filter' => 'rolefilter:admin'], static function ($routes) {
     $routes->get('', 'Rules::index');
     $routes->get('getData', 'Rules::getData');
     $routes->post('create', 'Rules::create');

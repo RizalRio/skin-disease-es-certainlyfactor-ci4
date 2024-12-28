@@ -16,7 +16,7 @@ class User extends BaseController
 
     public function index()
     {
-        return view('pages/user');
+        return view('pages/login');
     }
 
     public function login()
@@ -38,14 +38,7 @@ class User extends BaseController
                     'logged_in' => TRUE,
                 ];
                 $session->set($sessData);
-                switch($cek['role']){
-                    case 'admin':
-                        return redirect()->to('/pages/dashboard');
-                        break;
-                    case 'user':
-                        return redirect()->to('/pages/dashboard_user');
-                        break;
-                }
+                return redirect()->to('/dashboard');
             } else {
                 session()->setFlashdata('pesan', 'Login Gagal! Password salah!');
                 return redirect()->back();
@@ -92,7 +85,7 @@ class User extends BaseController
         if ($tambah) {
             // Jika berhasil, arahkan ke halaman login dengan pesan sukses
             session()->setFlashdata('pesan', 'Registrasi berhasil! Silakan login.');
-            return redirect()->to('/user');
+            return redirect()->to('/login');
         } else {
            // Jika gagal, kembalikan dengan pesan error
             session()->setFlashdata('pesan', 'Registrasi Gagal! Terjadi kesalahan.');
@@ -105,7 +98,7 @@ class User extends BaseController
     {
         $session = session();
         $session->destroy();
-        return redirect()->to('/user');
+        return redirect()->to('/login');
     }
 
 }

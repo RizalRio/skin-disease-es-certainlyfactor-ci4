@@ -6,19 +6,13 @@ use CodeIgniter\Filters\FilterInterface;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 
-class AdminFilter implements FilterInterface
+class LoginFilter implements FilterInterface
 {
     public function before(RequestInterface $request, $arguments = null)
     {
         if(!session()->get('logged_in')){
             session()->setFlashdata('pesan', 'Anda Belum Login');
-            return redirect()->to('/user');
-        }
-
-        if(session()->get('role') != 'admin'){
-            session()->setFlashdata('pesan', 'Mohon maaf, Anda tidak memiliki akses!');
-            return redirect()->to('/user');
-            
+            return redirect()->to('/');
         }
     }
 

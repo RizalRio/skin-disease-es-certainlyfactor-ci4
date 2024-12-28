@@ -28,8 +28,4 @@ class Dashboard extends BaseController
         return view('pages/dashboard', $data);
     }
 
-    public function user()
-    {
-        return view('pages/dashboard_user');
-    }
 }
