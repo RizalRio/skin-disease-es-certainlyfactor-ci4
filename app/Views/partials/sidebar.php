@@ -46,6 +46,14 @@
                         </p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="<?= base_url('rules') ?>" class="nav-link">
+                        <i class="nav-icon fas fa-star-of-life"></i>
+                        <p>
+                            Rules
+                        </p>
+                    </a>
+                </li>
                 <!-- <li class="nav-item menu-open">
                     <a href="#" class="nav-link active">
                         <i class="nav-icon fas fa-tachometer-alt"></i>

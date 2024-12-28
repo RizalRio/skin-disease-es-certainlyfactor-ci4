@@ -3,48 +3,54 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
-use App\Models\Symptoms as ModelsSymptoms;
+use App\Models\Rules as ModelsRules;
 use CodeIgniter\HTTP\ResponseInterface;
 
-class Symptoms extends BaseController
+class Rules extends BaseController
 {
     public function index()
     {
-        return view('pages/symptoms');
+        return view('pages/rules');
     }
 
     public function getData()
     {
-        $symptomsModel = new ModelsSymptoms();
+        $rulesModel = new ModelsRules();
 
-        $start          = $this->request->getVar('start');
-        $length         = $this->request->getVar('length');
-        $searchValue    = $this->request->getVar('search')['value'];
+        $start          = $this->request->getVar('start') ?? 0;
+        $length         = $this->request->getVar('length') ?? 10;
+        $searchValue    = $this->request->getVar('search')['value'] ?? '';
 
-        $query = $symptomsModel;
+        $query = $rulesModel;
 
         if (!empty($searchValue)) {
-            $query = $query->like('description', $searchValue)
-                ->orLike('code', $searchValue);
+            $query = $query->groupStart()
+                ->like('diseases.name', $searchValue)
+                ->orLike('symptoms.description', $searchValue)
+                ->orLike('rules.cf_value', $searchValue)
+                ->groupEnd();
         }
 
-        $totalRecords = $symptomsModel->countAll();
-
+        $totalRecords = $rulesModel->countAll();
         $totalFiltered = $query->countAllResults(false);
 
-        $data = $query->orderBy('id', 'ASC')
+        $query = $query->select('rules.id, rules.disease_id, rules.symptom_id, rules.cf_value, diseases.name as disease, symptoms.description as symptom')
+            ->join('diseases', 'diseases.id = rules.disease_id', 'right')
+            ->join('symptoms', 'symptoms.id = rules.symptom_id', 'right');
+
+        $data = $query->orderBy('rules.id', 'ASC')
             ->findAll($length, $start);
 
-        // Add action buttons
         foreach ($data as &$row) {
-            $row['actions'] = '<button type="button" class="btn btn-info btn-sm btn-edit mr-2" data-id="' . $row['id'] . '" data-toggle="modal" data-target="#editSymptoms"><i class="fas fa-edit"></i></button><button type="button" class="btn btn-danger btn-sm btn-delete" data-id="' . $row['id'] . '" data-toggle="modal" data-target="#deleteSymptoms"><i class="fas fa-trash"></i></button>';
+            $row['actions'] = '<button type="button" class="btn btn-info btn-sm btn-edit mr-2" data-id="' . esc($row['id']) . '" data-toggle="modal" data-target="#editDiseases"><i class="fas fa-edit"></i></button>
+                           <button type="button" class="btn btn-danger btn-sm btn-delete" data-id="' . esc($row['id']) . '" data-toggle="modal" data-target="#deleteDiseases"><i class="fas fa-trash"></i></button>';
         }
 
         $result = [
             'draw' => $this->request->getVar('draw'),
             'recordsTotal' => $totalRecords,
             'recordsFiltered' => $totalFiltered,
-            'data' => $data
+            'data' => $data,
         ];
 
         return $this->response->setJSON($result);
@@ -52,24 +58,25 @@ class Symptoms extends BaseController
 
     public function create()
     {
-        $symptomsModel = new ModelsSymptoms();
+        $rulesModel = new ModelsRules();
 
         if ($this->request->getMethod() == 'post') {
             $dataPost = $this->request->getVar();
 
             $dataInsert = [
-                'code'          => $dataPost['code'],
-                'description'   => strip_tags($dataPost['description'])
+                'disease_id'    => $dataPost['selectDisease'],
+                'symptom_id'    => $dataPost['selectSymptom'],
+                'cf_value'      => $dataPost['inputCF'],
             ];
 
 
-            if ($symptomsModel->insert($dataInsert)) {
+            if ($rulesModel->insert($dataInsert)) {
                 session()->setFlashData('success', 'Data berhasil ditambahkan.');
                 return redirect()->to($_SERVER['HTTP_REFERER']);
             } else {
                 session()->setFlashData('danger', 'Data gagal ditambahkan!');
 
-                $errors = $symptomsModel->errors();
+                $errors = $rulesModel->errors();
                 if ($errors) {
                     foreach ($errors as $error) {
                         log_message('error', $error);
@@ -82,24 +89,25 @@ class Symptoms extends BaseController
 
     public function edit()
     {
-        $symptomsModel = new ModelsSymptoms();
+        $rulesModel = new ModelsRules();
         $data = $this->request->getVar();
 
         if ($this->request->getMethod() == 'post') {
             $dataPost = $this->request->getVar();
 
             $dataEdit = [
-                'code'          => $dataPost['code'],
-                'description'   => strip_tags($dataPost['description'])
+                'disease_id'    => $dataPost['selectEditDisease'],
+                'symptom_id'    => $dataPost['selectEditSymptoms'],
+                'cf_value'      => $dataPost['inputEditCF'],
             ];
 
-            if ($symptomsModel->update($dataPost['id'], $dataEdit)) {
+            if ($rulesModel->update($dataPost['id'], $dataEdit)) {
                 session()->setFlashData('success', 'Data berhasil diupdate.');
                 return redirect()->to($_SERVER['HTTP_REFERER']);
             } else {
                 session()->setFlashData('danger', 'Data gagal diupdate!');
 
-                $errors = $symptomsModel->errors();
+                $errors = $rulesModel->errors();
                 if ($errors) {
                     foreach ($errors as $error) {
                         log_message('error', $error);
@@ -108,7 +116,7 @@ class Symptoms extends BaseController
                 return redirect()->to($_SERVER['HTTP_REFERER']);
             }
         } elseif ($this->request->isAJAX()) {
-            $dataGet = $symptomsModel->find($data['id']);
+            $dataGet = $rulesModel->find($data['id']);
 
             if (!empty($dataGet)) {
                 $response = [
@@ -129,17 +137,17 @@ class Symptoms extends BaseController
 
     public function delete()
     {
-        $symptomsModel = new ModelsSymptoms();
+        $rulesModel = new ModelsRules();
         $idPost = $this->request->getVar('idDelete');
 
         if ($this->request->getMethod() == 'post' && !empty($idPost)) {
-            if ($symptomsModel->delete($idPost)) {
+            if ($rulesModel->delete($idPost)) {
                 session()->setFlashData('success', 'Data berhasil dihapus.');
                 return redirect()->to($_SERVER['HTTP_REFERER']);
             } else {
                 session()->setFlashData('danger', 'Data gagal dihapus!');
 
-                $errors = $symptomsModel->errors();
+                $errors = $rulesModel->errors();
                 if ($errors) {
                     foreach ($errors as $error) {
                         log_message('error', $error);
@@ -148,22 +156,5 @@ class Symptoms extends BaseController
                 return redirect()->to($_SERVER['HTTP_REFERER']);
             }
         }
-    }
-
-    public function getSymptoms()
-    {
-        $symptomModel = new ModelsSymptoms();
-
-        $symptoms = $symptomModel->findAll();
-
-        $data = [];
-        foreach ($symptoms as $symptom) {
-            $data[] = [
-                'id' => $symptom['id'],
-                'text' => $symptom['description']
-            ];
-        }
-
-        return $this->response->setJSON($data);
     }
 }

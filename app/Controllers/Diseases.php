@@ -155,4 +155,21 @@ class Diseases extends BaseController
             }
         }
     }
+
+    public function getDiseases()
+    {
+        $diseaseModel = new ModelsDiseases();
+
+        $diseases = $diseaseModel->findAll();
+
+        $data = [];
+        foreach ($diseases as $disease) {
+            $data[] = [
+                'id' => $disease['id'],
+                'text' => $disease['name']
+            ];
+        }
+
+        return $this->response->setJSON($data);
+    }
 }

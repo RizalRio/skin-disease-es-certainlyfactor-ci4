@@ -19,6 +19,8 @@
 <script src="<?= base_url('plugins/adminlte') ?>/plugins/jquery-knob/jquery.knob.min.js"></script>
 <!-- DataTable -->
 <script src="<?= base_url('plugins/datatables/datatables.min.js') ?>"></script>
+<!-- Select2 -->
+<script src=" <?= base_url('plugins/adminlte') ?>/plugins/select2/js/select2.min.js"></script>
 <!-- daterangepicker -->
 <script src="<?= base_url('plugins/adminlte') ?>/plugins/moment/moment.min.js"></script>
 <script src="<?= base_url('plugins/adminlte') ?>/plugins/daterangepicker/daterangepicker.js"></script>
