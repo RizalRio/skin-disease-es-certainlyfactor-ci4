@@ -12,6 +12,8 @@
  <link rel="stylesheet" href="<?= base_url('plugins/adminlte') ?>/plugins/jqvmap/jqvmap.min.css">
  <!-- DataTables -->
  <link rel="stylesheet" href="<?= base_url('plugins/datatables/datatables.min.css') ?>">
+ <!-- Select2 -->
+ <link rel="stylesheet" href="<?= base_url('plugins/adminlte') ?>/plugins/select2/css/select2.min.css" rel="stylesheet" />
  <!-- Theme style -->
  <link rel="stylesheet" href="<?= base_url('plugins/adminlte') ?>/dist/css/adminlte.min.css">
  <!-- overlayScrollbars -->

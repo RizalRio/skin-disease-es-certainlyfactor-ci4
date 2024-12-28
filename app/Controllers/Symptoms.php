@@ -10,7 +10,11 @@ class Symptoms extends BaseController
 {
     public function index()
     {
-        return view('pages/symptoms');
+        $data = [
+            'title' => 'Gejala'
+        ];
+
+        return view('pages/symptoms', $data);
     }
 
     public function getData()
@@ -149,5 +153,21 @@ class Symptoms extends BaseController
             }
         }
     }
-}
 
+    public function getSymptoms()
+    {
+        $symptomModel = new ModelsSymptoms();
+
+        $symptoms = $symptomModel->findAll();
+
+        $data = [];
+        foreach ($symptoms as $symptom) {
+            $data[] = [
+                'id' => $symptom['id'],
+                'text' => $symptom['description']
+            ];
+        }
+
+        return $this->response->setJSON($data);
+    }
+}

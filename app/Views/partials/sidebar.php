@@ -46,14 +46,6 @@
                         </p>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="<?= base_url('user/logout') ?>" class="nav-link">
-                        <i class="nav-icon fas fa-star-of-life"></i>
-                        <p>
-                            Logout
-                        </p>
-                    </a>
-                </li>
                 <!-- <li class="nav-item menu-open">
                     <a href="#" class="nav-link active">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
