@@ -30,3 +30,6 @@ $routes->group('rules', static function ($routes) {
     $routes->match(['GET', 'POST'], 'edit', 'Rules::edit');
     $routes->match(['GET', 'POST'], 'delete', 'Rules::delete');
 });
+$routes->group('diagnose', static function ($routes) {
+    $routes->get('', 'Diagnose::index');
+});
