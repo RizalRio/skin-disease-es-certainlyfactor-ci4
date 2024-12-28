@@ -48,7 +48,7 @@
                 </li>
                 <li class="nav-item">
                     <a href="<?= base_url('rules') ?>" class="nav-link">
-                        <i class="nav-icon fas fa-star-of-life"></i>
+                        <i class="nav-icon fas fa-balance-scale"></i>
                         <p>
                             Rules
                         </p>

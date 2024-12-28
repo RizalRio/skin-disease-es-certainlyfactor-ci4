@@ -10,7 +10,11 @@ class Rules extends BaseController
 {
     public function index()
     {
-        return view('pages/rules');
+        $data = [
+            'title' => 'Rules'
+        ];
+
+        return view('pages/rules', $data);
     }
 
     public function getData()

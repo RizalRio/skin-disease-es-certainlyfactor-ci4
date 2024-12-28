@@ -10,7 +10,11 @@ class Symptoms extends BaseController
 {
     public function index()
     {
-        return view('pages/symptoms');
+        $data = [
+            'title' => 'Gejala'
+        ];
+
+        return view('pages/symptoms', $data);
     }
 
     public function getData()

@@ -10,7 +10,11 @@ class Diseases extends BaseController
 {
     public function index()
     {
-        return view('pages/diseases');
+        $data = [
+            'title' => 'Penyakit'
+        ];
+
+        return view('pages/diseases', $data);
     }
 
     public function getData()

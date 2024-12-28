@@ -4,7 +4,7 @@
 <div class="container-fluid">
     <div class="card card-outline card-primary">
         <div class="card-header">
-            <h3 class="card-title">Data Penyakit</h3>
+            <h3 class="card-title">Data Rules</h3>
             <div class="card-tools">
                 <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#addRules">
                     <i class="fas fa-plus"></i>
