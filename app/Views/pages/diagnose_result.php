@@ -35,7 +35,7 @@
             <?php endif; ?>
         </div>
         <div class="card-footer">
-            <a href="/diagnosis" class="btn btn-primary">Kembali</a>
+            <a href="/diagnose" class="btn btn-primary">Kembali</a>
         </div>
     </div>
 </div>

@@ -1,7 +1,7 @@
 <!-- Main Sidebar Container -->
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="index3.html" class="brand-link">
+    <a href="<?= base_url('dashboard') ?>" class="brand-link">
         <img src="<?= base_url('plugins/adminlte') ?>/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
         <span class="brand-text font-weight-light">AdminLTE 3</span>
     </a>
@@ -14,7 +14,7 @@
                 <img src="<?= base_url('plugins/adminlte') ?>/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-                <a href="#" class="d-block"><?php echo session()->get('username'); ?></a>
+                <a href="<?= base_url('dashboard') ?>" class="d-block"><?php echo session()->get('username'); ?></a>
             </div>
         </div>
 
@@ -27,6 +27,14 @@
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
                             Dashboard
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="<?= base_url('diagnose') ?>" class="nav-link">
+                        <i class="nav-icon fas fa-notes-medical"></i>
+                        <p>
+                            Diagnose
                         </p>
                     </a>
                 </li>
