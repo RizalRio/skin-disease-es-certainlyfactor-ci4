@@ -39,4 +39,5 @@ $routes->group('rules', ['filter' => 'rolefilter:admin'], static function ($rout
 });
 $routes->group('diagnose', static function ($routes) {
     $routes->get('', 'Diagnose::index');
+    $routes->post('diagnose', 'Diagnose::diagnose');
 });

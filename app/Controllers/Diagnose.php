@@ -74,6 +74,9 @@ class Diagnose extends BaseController
             $diagnoses[] = $disease;
         }
 
-        return view('diagnosis_result', ['diagnoses' => $diagnoses]);
+        return view('pages/diagnose_result', [
+            'title'     => 'Hasil Diagnosa',
+            'diagnoses' => $diagnoses
+        ]);
     }
 }

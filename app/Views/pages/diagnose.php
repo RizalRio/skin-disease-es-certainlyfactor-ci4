@@ -2,7 +2,7 @@
 
 <?= $this->section('content') ?>
 <div class="container-fluid">
-    <form action="/diagnosis/diagnose" method="post">
+    <form action="<?= base_url('diagnose/diagnose') ?>" method="post">
         <div class="card card-outline card-primary">
             <div class="card-header">
                 <h3 class="card-title">Form Diagnosis</h3>
